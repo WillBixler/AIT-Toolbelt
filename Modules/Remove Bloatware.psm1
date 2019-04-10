@@ -6,7 +6,7 @@ function Remove-Bloatware {
 
 	$ProgressPreference = "SilentlyContinue"
 
-	$bloatware = @("Amazon", "bing", "HeartsDeluxe", "Mahjong", "messaging", "Netflix", "OneConnect", "OneNote", "People", "Print3D", "RandomSaladGames", "Snapfish", "Solitaire", "TheWeatherChannel", "TripAdvisor", "Wallet", "xbox", "zune")
+	$bloatware = @("Amazon", "Bing", "HeartsDeluxe", "Mahjong", "Messaging", "Netflix", "OneConnect", "OneNote", "People", "Print3D", "RandomSaladGames", "Snapfish", "Solitaire", "TheWeatherChannel", "TripAdvisor", "Wallet", "Xbox", "Zune")
 	$ignore = @("Microsoft.XboxGameCallableUI", "Microsoft.Windows.PeopleExperienceHost")
 
 	$count = 0
@@ -17,7 +17,7 @@ function Remove-Bloatware {
 		if (get-appxpackage *$app*) {
 			get-appxpackage *$app* | ForEach-Object {
 				if (!$ignore.Contains($_.name)) {
-					$Console.Text += "Removing $($_.name)"
+					$Console.Text += "`r`nRemoving $($_.name)"
 					get-appxpackage "`r`n$($_.name)" | remove-appxpackage -ErrorAction SilentlyContinue
 					$count++
 				}
