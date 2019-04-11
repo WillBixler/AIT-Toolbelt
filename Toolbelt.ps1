@@ -7,7 +7,6 @@ Write-Host "Building GUI..." -ForegroundColor Yellow
 
 Add-Type -assembly System.Windows.Forms
 
-$LabelFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 10, [System.Drawing.FontStyle]::Regular)
 $ButtonFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 11, [System.Drawing.FontStyle]::Regular)
 $ConsoleFont = New-Object System.Drawing.Font("Arial", 9, [System.Drawing.FontStyle]::Regular)
 
