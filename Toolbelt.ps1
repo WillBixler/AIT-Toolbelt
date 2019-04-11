@@ -1,7 +1,9 @@
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 
+# Import modules
 Import-Module "$PSScriptRoot\Modules\Remove Bloatware.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
+Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -WarningAction SilentlyContinue
 
 Write-Host "Building GUI..." -ForegroundColor Yellow
 
@@ -9,6 +11,14 @@ Add-Type -assembly System.Windows.Forms
 
 $ButtonFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 11, [System.Drawing.FontStyle]::Regular)
 $ConsoleFont = New-Object System.Drawing.Font("Arial", 9, [System.Drawing.FontStyle]::Regular)
+
+$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
+$machineType = $osInfo.ProductType
+switch ($machineType) {
+    1 {Write-Host "Workstation" -ForegroundColor Green}
+    2 {Write-Host "Domain Controller" -ForegroundColor Green}
+    3 {Write-Host "Server" -ForegroundColor Green}
+}
 
 # ---------------------------------------- INITIALIZE FORM ----------------------------------------
 
@@ -79,11 +89,13 @@ $WorkstationGroup.Controls.Add($Tweaks)
 
 # ---------------------------------------- BEGIN SERVER CONTROLS ----------------------------------------
 
-$ServerGroup = New-Object System.Windows.Forms.GroupBox
-$ServerGroup.Location = New-Object System.Drawing.Size(20, 420)
-$ServerGroup.Size = New-Object System.Drawing.Size(570, 300)
-$ServerGroup.Text = "Server Controls"
-$main_form.Controls.Add($ServerGroup)
+$DCGroup = New-Object System.Windows.Forms.GroupBox
+$DCGroup.Location = New-Object System.Drawing.Size(20, 420)
+$DCGroup.Size = New-Object System.Drawing.Size(570, 300)
+$DCGroup.Text = "Domain Controller Controls"
+if ($machineType -eq 2 -or $true) {
+    $main_form.Controls.Add($DCGroup)
+}
 
 $DistributeCW = New-Object System.Windows.Forms.Button
 $DistributeCW.Text = "Distribute ConnectWise"
@@ -91,10 +103,9 @@ $DistributeCW.Location = New-Object System.Drawing.Size(20, 20)
 $DistributeCW.Size = New-Object System.Drawing.Size(200, 50)
 $DistributeCW.Font = $ButtonFont
 $DistributeCW.Add_Click( {
-    $Console.Clear()
-    $Console.AppendText("FEATURE COMING SOON...")
+    Distribute-Software -Console $Console -Name "ConnectWise" -Path "C:\Software"
 })
-$ServerGroup.Controls.Add($DistributeCW)
+$DCGroup.Controls.Add($DistributeCW)
 
 $DistributePW = New-Object System.Windows.Forms.Button
 $DistributePW.Text = "Distribute Pulseway"
@@ -102,10 +113,9 @@ $DistributePW.Location = New-Object System.Drawing.Size(240, 20)
 $DistributePW.Size = New-Object System.Drawing.Size(200, 50)
 $DistributePW.Font = $ButtonFont
 $DistributePW.Add_Click( {
-    $Console.Clear()
-    $Console.AppendText("FEATURE COMING SOON...")
+    Distribute-Software -Console $Console -Name "Pulseway" -Path "C:\Software"
 })
-$ServerGroup.Controls.Add($DistributePW)
+$DCGroup.Controls.Add($DistributePW)
 
 # Display Form
 Write-Host "GUI Built... Showing Dialog..." -ForegroundColor Yellow
