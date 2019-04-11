@@ -16,6 +16,14 @@ $Credit.Location = New-Object System.Drawing.Point(550, 40)
 $Credit.AutoSize = $true
 $main_form.Controls.Add($Credit)
 
+$LogoPath = "$PSScriptRoot\Assets\Images\Logo.png"
+$LogoImg = [System.Drawing.Image]::Fromfile($LogoPath)
+$Logo = new-object Windows.Forms.PictureBox
+$Logo.Width = $LogoImg.Size.Width
+$Logo.Height = $LogoImg.Size.Height
+$Logo.Image = $LogoImg
+$main_form.controls.add($Logo)
+
 $Console = New-Object System.Windows.Forms.TextBox
 $Console.Text = ""
 $Console.Location = New-Object System.Drawing.Size(620,100)
