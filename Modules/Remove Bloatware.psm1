@@ -20,14 +20,14 @@ function Remove-Bloatware {
 	# For each app in bloatware definitions
 	foreach($app in $bloatware) {
 		# If there are apps that match the pattern
-		if (get-appxpackage *$app*) {
+		if (get-appxpackage -AllUsers *$app*) {
 			# For each found app that matches
-			get-appxpackage *$app* | ForEach-Object {
+			get-appxpackage -AllUsers *$app* | ForEach-Object {
 				# If the app is not in the ignore list
 				if (!$ignore.Contains($_.name)) {
 					# Remove the app and increment the count
 					$Console.AppendText("`r`nRemoving $($_.name)")
-					get-appxpackage "$($_.name)" | remove-appxpackage -ErrorAction SilentlyContinue
+					get-appxpackage -AllUsers "$($_.name)" | remove-appxpackage -ErrorAction SilentlyContinue
 					$count++
 				}
 			}

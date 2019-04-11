@@ -15,9 +15,24 @@ function Distribute-Software {
 
         $count = 0
         foreach($computer in Get-ADComputer -Filter *) {
-            $Console.AppendText("`r`nDistributing to $($computer.name)...")
-            Copy-Item -Path $software.FullName -Destination "\\$($computer.name)\c$\Software\$($software.Name)"
-            $count++
+            $RemotePath = "\\$($computer.name)\c$\Software\$($software.Name)"
+            if (Get-Item $RemotePath) {
+                $Console.AppendText("$($Name) is already present on $($computer.name)")
+            } else {
+                $Console.AppendText("`r`nDistributing to $($computer.name)...")
+                Copy-Item -Path $software.FullName -Destination "\\$($computer.name)\c$\Software\$($software.Name)"
+
+                $Console.AppendText("`r`nInstalling on $($computer.name)...")
+                Invoke-Command -ComputerName $computer.name -ScriptBlock {
+                    if ($software.Extension -eq "msi") {
+                        Start-Process msiexec.exe -Wait -ArgumentList '/I C:\Software\$($software.Name) /quiet'
+                    } else {
+                        Start-Process "C:\Software\$($software.Name)" -Wait
+                    }
+                }
+
+                $count++
+            }
         }
 
         $Console.AppendText("`r`nDistributed to $($count) computers!")
