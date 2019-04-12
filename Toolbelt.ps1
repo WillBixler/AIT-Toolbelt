@@ -107,6 +107,16 @@ $DistributeCW.Add_Click( {
 })
 $DCGroup.Controls.Add($DistributeCW)
 
+$DistributeCW = New-Object System.Windows.Forms.Button
+$DistributeCW.Text = "Distribute ConnectWise"
+$DistributeCW.Location = New-Object System.Drawing.Size(20, 20)
+$DistributeCW.Size = New-Object System.Drawing.Size(200, 50)
+$DistributeCW.Font = $ButtonFont
+$DistributeCW.Add_Click( {
+    Distribute-Software -Console $Console -Name "ConnectWise" -Path "C:\Software"
+})
+$DCGroup.Controls.Add($DistributeCW)
+
 $DistributePW = New-Object System.Windows.Forms.Button
 $DistributePW.Text = "Distribute Pulseway"
 $DistributePW.Location = New-Object System.Drawing.Size(240, 20)
@@ -116,6 +126,23 @@ $DistributePW.Add_Click( {
     Distribute-Software -Console $Console -Name "Pulseway" -Path "C:\Software"
 })
 $DCGroup.Controls.Add($DistributePW)
+
+$UpgradeAllToWin10 = New-Object System.Windows.Forms.Button
+$UpgradeAllToWin10.Text = "Upgrade Network Computers to Windows 10"
+$UpgradeAllToWin10.Location = New-Object System.Drawing.Size(20, 80)
+$UpgradeAllToWin10.Size = New-Object System.Drawing.Size(200, 50)
+$UpgradeAllToWin10.Font = $ButtonFont
+$UpgradeAllToWin10.Add_Click( {
+    $Console.Clear()
+    $Console.AppendText("Coming soon...")
+    #i5 +
+    #8Gb ram +
+    #2 years old -
+    #64bit only
+})
+$DCGroup.Controls.Add($UpgradeAllToWin10)
+
+
 
 # Display Form
 Write-Host "GUI Built... Showing Dialog..." -ForegroundColor Yellow
