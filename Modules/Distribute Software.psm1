@@ -1,19 +1,40 @@
+Import-Module "$PSScriptRoot\Network Computers.psm1" -Force
+
 function Distribute-Software {
     param (
         [System.Windows.Forms.RichTextBox]$Console,
-        $Path,
-        $Name,
         $Destination
     )
 
     $Console.Clear()
-    $Console.AppendText("Searching for $($Name) installer in C:\Software")
-    if ($software = Get-Item -Path "$($Path)\*$($Name)*") {
-        $Console.AppendText("`r`n`r`nFound $($software.BaseName) in $($software.Directory)")
-        
-        $Console.AppendText("`r`n`r`nDistributing $($Name)...")
 
-        $count = 0
+    Add-Type -AssemblyName System.Windows.Forms
+    $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
+        InitialDirectory = [Environment]::GetFolderPath('Desktop')
+    }
+    $FileBrowser.ShowDialog()
+
+    $Path = $FileBrowser.FileName
+    $FileName = $FileBrowser.SafeFileName
+    $Console.AppendText("File: $($FileName)")
+
+    if (Get-Item -Path $Path) {
+
+        $Console.AppendText("`r`n`r`nFinding Network Computers...")
+        
+        $Console.AppendText("`r`n`r`nDistributing $($FileBrowser.SafeFileName)... This can take a while...")
+
+        $Computers = Get-NetworkComputers
+
+        foreach($computer in $Computers) {
+            $computerName = $computer.Path.Split("/")[3]
+            $Console.AppendText("`r`nDistributing to $($computerName)...")
+            
+            Copy-Item -Path $Path -Destination "\\$($computerName)\c$\SOFTWARE\$($FileName)" -ErrorAction SilentlyContinue
+            
+        }
+
+        <#$count = 0
         foreach($computer in Get-ADComputer -Filter *) {
             $RemotePath = "\\$($computer.name)\c$\Software\$($software.Name)"
             if (Get-Item $RemotePath) {
@@ -33,12 +54,8 @@ function Distribute-Software {
 
                 $count++
             }
-        }
+        }#>
 
-        $Console.AppendText("`r`nDistributed to $($count) computers!")
-
-    } else {
-        $Console.AppendText("`r`n`r`nDid not find $($Name)... `r`nPlease place installer in $($Path)... `r`nInstaller name must include `"$($Name)`"")
     }
     
 }

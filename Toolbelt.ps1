@@ -5,6 +5,9 @@ Import-Module "$PSScriptRoot\Modules\Remove Bloatware.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
 Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -WarningAction SilentlyContinue
 
+# Import settings
+$Settings = Get-Content "$PSScriptRoot\Settings.json" | ConvertFrom-Json
+
 Write-Host "Building GUI..." -ForegroundColor Yellow
 
 Add-Type -assembly System.Windows.Forms
@@ -22,7 +25,6 @@ switch ($machineType) {
 
 # ---------------------------------------- INITIALIZE FORM ----------------------------------------
 
-Add-Type -assembly System.Windows.Forms
 $main_form = New-Object System.Windows.Forms.Form
 $main_form.Text = "Aspire IT Toolbelt"
 $main_form.Width = 1200
@@ -93,39 +95,19 @@ $DCGroup = New-Object System.Windows.Forms.GroupBox
 $DCGroup.Location = New-Object System.Drawing.Size(20, 420)
 $DCGroup.Size = New-Object System.Drawing.Size(570, 300)
 $DCGroup.Text = "Domain Controller Controls"
-if ($machineType -eq 2 -or $true) {
+if ($machineType -eq 2 -or $Settings.debug) {
     $main_form.Controls.Add($DCGroup)
 }
 
-$DistributeCW = New-Object System.Windows.Forms.Button
-$DistributeCW.Text = "Distribute ConnectWise"
-$DistributeCW.Location = New-Object System.Drawing.Size(20, 20)
-$DistributeCW.Size = New-Object System.Drawing.Size(200, 50)
-$DistributeCW.Font = $ButtonFont
-$DistributeCW.Add_Click( {
-    Distribute-Software -Console $Console -Name "ConnectWise" -Path "C:\Software"
+$DistrubuteSoftware = New-Object System.Windows.Forms.Button
+$DistrubuteSoftware.Text = "Distribute Software"
+$DistrubuteSoftware.Location = New-Object System.Drawing.Size(20, 20)
+$DistrubuteSoftware.Size = New-Object System.Drawing.Size(200, 50)
+$DistrubuteSoftware.Font = $ButtonFont
+$DistrubuteSoftware.Add_Click( {
+    Distribute-Software -Console $Console
 })
-$DCGroup.Controls.Add($DistributeCW)
-
-$DistributeCW = New-Object System.Windows.Forms.Button
-$DistributeCW.Text = "Distribute ConnectWise"
-$DistributeCW.Location = New-Object System.Drawing.Size(20, 20)
-$DistributeCW.Size = New-Object System.Drawing.Size(200, 50)
-$DistributeCW.Font = $ButtonFont
-$DistributeCW.Add_Click( {
-    Distribute-Software -Console $Console -Name "ConnectWise" -Path "C:\Software"
-})
-$DCGroup.Controls.Add($DistributeCW)
-
-$DistributePW = New-Object System.Windows.Forms.Button
-$DistributePW.Text = "Distribute Pulseway"
-$DistributePW.Location = New-Object System.Drawing.Size(240, 20)
-$DistributePW.Size = New-Object System.Drawing.Size(200, 50)
-$DistributePW.Font = $ButtonFont
-$DistributePW.Add_Click( {
-    Distribute-Software -Console $Console -Name "Pulseway" -Path "C:\Software"
-})
-$DCGroup.Controls.Add($DistributePW)
+$DCGroup.Controls.Add($DistrubuteSoftware)
 
 $UpgradeAllToWin10 = New-Object System.Windows.Forms.Button
 $UpgradeAllToWin10.Text = "Upgrade Network Computers to Windows 10"
