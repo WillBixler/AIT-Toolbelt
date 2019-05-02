@@ -74,27 +74,30 @@ function Distribute-Software {
             Write-Host "`r`n`r`nDistributing to $($computer)..." -ForegroundColor Yellow
 
             try {
-                Copy-Item -Path $Path -Destination "\\$($computer)\c$\SOFTWARE\$($FileName)" -ErrorAction Stop
+                Copy-Item -Path $Path -Destination "\\$($computer)\c$\SOFTWARE\$($FileName)" -Recurse -ErrorAction Stop
                 Write-Host "Copied sucessfully..." -ForegroundColor Green
+                Write-Host "Enabling PS Remoting on $($computer)..." -ForegroundColor Yellow
+                Set-Location $PSScriptRoot
+                ..\PSTools\psexec \\$computer -h -accepteula -nobanner powershell.exe "enable-psremoting -force"
                 Write-Host "Starting software on $($computer)..." -ForegroundColor Yellow
                 $session = New-PSSession -ComputerName $computer -ErrorAction SilentlyContinue
                 if ($session -ne $null) {
                     Invoke-Command -Session $session -ScriptBlock {
-                        try {
-                            if ($software.Extension -eq "msi") {
-                                Start-Process msiexec.exe -ArgumentList '/I C:\Software\$($software.Name) /quiet' -ErrorAction Stop
-                            } else {
-                                Start-Process "C:\Software\$($software.Name)" -ArgumentList @("--silent") -ErrorAction Stop
-                            }
-                        } catch {
-                            return $_
+                        param(
+                            $path,
+                            $fileName
+                        )
+                        if ((Get-Item "C:\Software\$($fileName)").Extension -eq "msi") {
+                            Start-Process msiexec.exe -ArgumentList '/I C:\Software\$($fileName) /quiet' -ErrorAction Stop
+                        } else {
+                            Start-Process "C:\Software\$($fileName)" -ArgumentList "/silent", "/s", "/q", "/quiet", "--silent" -ErrorAction Stop
                         }
-                    }
+                    } -ArgumentList $Path, $FileName
                     Write-Host "Software successfully started!" -ForegroundColor Green
                     $Successful += $computer
                 } else {
                     $ErrorMessage = "Connection Failed"
-                    Write-Host "Connection to $computer failed... Please run `"winrm quickconfig`" in powershell on $computer" -ForegroundColor Red
+                    Write-Host "Connection to $computer failed... Please run `"Enable-PSRemoting`" in powershell on $computer" -ForegroundColor Red
                     $Failed += "$($computer) - $($ErrorMessage)"
                 }
                 Exit-PSSession
