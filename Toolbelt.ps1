@@ -6,7 +6,27 @@ Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
 Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -WarningAction SilentlyContinue
 
 # Import settings
-$Settings = Get-Content "$PSScriptRoot\Settings.json" | ConvertFrom-Json
+if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
+    Write-Host "Found Settings file... Loading..." -ForegroundColor Yellow
+
+    $Settings = Get-Content "$PSScriptRoot\Settings.json" | ConvertFrom-Json -ErrorAction SilentlyContinue
+} else {
+    Write-Host "Settings file not found... Creating it..." -ForegroundColor Yellow
+
+    $Settings = New-Object -TypeName psobject
+    $Settings | Add-Member -MemberType NoteProperty -Name debug -Value $false
+
+    $Settings | ConvertTo-Json | Out-File "$PSScriptRoot\Settings.json"
+    (Get-Item "$PSScriptRoot\Settings.json" -Force).Attributes += "Hidden"
+}
+
+$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
+$machineType = $osInfo.ProductType
+switch ($machineType) {
+    1 {Write-Host "Machine type: Workstation" -ForegroundColor Yellow}
+    2 {Write-Host "Machine type: Domain Controller" -ForegroundColor Yellow}
+    3 {Write-Host "Machine type: Server" -ForegroundColor Yellow}
+}
 
 Write-Host "Building GUI..." -ForegroundColor Yellow
 
@@ -14,14 +34,6 @@ Add-Type -assembly System.Windows.Forms
 
 $ButtonFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 11, [System.Drawing.FontStyle]::Regular)
 $ConsoleFont = New-Object System.Drawing.Font("Arial", 9, [System.Drawing.FontStyle]::Regular)
-
-$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
-$machineType = $osInfo.ProductType
-switch ($machineType) {
-    1 {Write-Host "Workstation" -ForegroundColor Green}
-    2 {Write-Host "Domain Controller" -ForegroundColor Green}
-    3 {Write-Host "Server" -ForegroundColor Green}
-}
 
 # ---------------------------------------- INITIALIZE FORM ----------------------------------------
 
