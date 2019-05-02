@@ -14,8 +14,17 @@ Function Tweaks {
 
     # Adjust Sleep Settings
     $Console.AppendText("`r`nUpdating power settings...")
+    
+    $Ultimate = powercfg -l | ForEach-Object{if($_.contains("Ultimate Performance")) {$_.split()[3]}}
+    if ($Ultimate -eq $null) {
+      powercfg.exe -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+      $Ultimate = powercfg -l | ForEach-Object{if($_.contains("Ultimate Performance")) {$_.split()[3]}}
+    }
+    powercfg.exe -setactive $Ultimate
     powercfg.exe /X standby-timeout-ac 0
     powercfg.exe /X standby-timeout-dc 0
+    powercfg.exe /X monitor-timeout-ac 30
+    powercfg.exe /X monitor-timeout-dc 30
 
     $Console.AppendText("`r`n`r`nDone!")
 }

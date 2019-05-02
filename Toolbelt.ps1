@@ -84,7 +84,7 @@ $main_form.Controls.Add($WorkstationGroup)
 $RemoveBloatware = New-Object System.Windows.Forms.Button
 $RemoveBloatware.Text = "Remove Bloatware"
 $RemoveBloatware.Location = New-Object System.Drawing.Size(20, 20)
-$RemoveBloatware.Size = New-Object System.Drawing.Size(200, 50)
+$RemoveBloatware.Size = New-Object System.Drawing.Size(255, 50)
 $RemoveBloatware.Font = $ButtonFont
 $RemoveBloatware.Add_Click( {
     Remove-Bloatware $Console
@@ -93,8 +93,8 @@ $WorkstationGroup.Controls.Add($RemoveBloatware)
 
 $Tweaks = New-Object System.Windows.Forms.Button
 $Tweaks.Text = "Tweaks"
-$Tweaks.Location = New-Object System.Drawing.Size(240, 20)
-$Tweaks.Size = New-Object System.Drawing.Size(200, 50)
+$Tweaks.Location = New-Object System.Drawing.Size(295, 20)
+$Tweaks.Size = New-Object System.Drawing.Size(255, 50)
 $Tweaks.Font = $ButtonFont
 $Tweaks.Add_Click( {
     Tweaks $Console
@@ -114,7 +114,7 @@ if ($machineType -eq 2 -or $Settings.debug) {
 $DistrubuteSoftware = New-Object System.Windows.Forms.Button
 $DistrubuteSoftware.Text = "Distribute Software"
 $DistrubuteSoftware.Location = New-Object System.Drawing.Size(20, 20)
-$DistrubuteSoftware.Size = New-Object System.Drawing.Size(200, 50)
+$DistrubuteSoftware.Size = New-Object System.Drawing.Size(255, 50)
 $DistrubuteSoftware.Font = $ButtonFont
 $DistrubuteSoftware.Add_Click( {
     Distribute-Software -Console $Console
@@ -123,8 +123,8 @@ $DCGroup.Controls.Add($DistrubuteSoftware)
 
 $UpgradeAllToWin10 = New-Object System.Windows.Forms.Button
 $UpgradeAllToWin10.Text = "Upgrade Network Computers to Windows 10"
-$UpgradeAllToWin10.Location = New-Object System.Drawing.Size(20, 80)
-$UpgradeAllToWin10.Size = New-Object System.Drawing.Size(200, 50)
+$UpgradeAllToWin10.Location = New-Object System.Drawing.Size(295, 20)
+$UpgradeAllToWin10.Size = New-Object System.Drawing.Size(255, 50)
 $UpgradeAllToWin10.Font = $ButtonFont
 $UpgradeAllToWin10.Add_Click( {
     $Console.Clear()
