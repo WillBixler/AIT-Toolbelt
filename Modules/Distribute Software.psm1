@@ -2,8 +2,7 @@ Import-Module "$PSScriptRoot\Network Computers.psm1" -Force
 
 function Distribute-Software {
     param (
-        [System.Windows.Forms.RichTextBox]$Console,
-        $Destination
+        [System.Windows.Forms.RichTextBox]$Console
     )
 
     $Console.Clear()
@@ -52,6 +51,31 @@ function Distribute-Software {
 
         $popup.Controls.Add($CheckedListBox)
 
+        $destinationFolderLabel = New-Object System.Windows.Forms.Label
+        $destinationFolderLabel.Location = New-Object System.Drawing.Size(0, 550)
+        $destinationFolderLabel.Size = New-Object System.Drawing.Size(100,25)
+        $destinationFolderLabel.Text = "Destination Folder"
+        $popup.Controls.Add($destinationFolderLabel)
+
+        $destinationFolderInput = New-Object System.Windows.Forms.RichTextBox
+        $destinationFolderInput.Location = New-Object System.Drawing.Size(0,575)
+        $destinationFolderInput.Size = New-Object System.Drawing.Size(320,20)
+        $destinationFolderInput.Text = "C:\SOFTWARE"
+        $popup.Controls.Add($destinationFolderInput)
+
+        $destinationFolderButton = New-Object System.Windows.Forms.Button
+        $destinationFolderButton.Location = New-Object System.Drawing.Size(330, 575)
+        $destinationFolderButton.Size = New-Object System.Drawing.Size(25, 20)
+        $destinationFolderButton.Text = "..."
+        $destinationFolderButton.Add_click({
+
+            $FolderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog
+            $FolderBrowser.ShowDialog()
+
+            $destinationFolderInput.Text = $FolderBrowser.SelectedPath
+        })
+        $popup.Controls.Add($destinationFolderButton)
+
         $okButton = New-Object System.Windows.Forms.Button
         $okButton.Location = New-Object System.Drawing.Size(0, 600)
         $okButton.Size = New-Object System.Drawing.Size(350,50)
@@ -59,6 +83,7 @@ function Distribute-Software {
         $okButton.Font = $PrimaryFont
         $okButton.Add_Click({
             $Script:CheckedComputers = $CheckedListBox.CheckedItems
+            $Script:DestinationFolder = $destinationFolderInput.Text
             $popup.Close()
         })
         $popup.Controls.Add($okButton)
@@ -74,7 +99,9 @@ function Distribute-Software {
             Write-Host "`r`n`r`nDistributing to $($computer)..." -ForegroundColor Yellow
 
             try {
-                Copy-Item -Path $Path -Destination "\\$($computer)\c$\SOFTWARE\$($FileName)" -Recurse -ErrorAction Stop
+                $destinationPath = "\\$($computer)\$($DestinationFolder -replace ":", "$")\$($FileName)"
+                Write-Host "Destination: $($destinationPath)"
+                Copy-Item -Path $Path -Destination $destinationPath -Recurse -ErrorAction Stop
                 Write-Host "Copied sucessfully..." -ForegroundColor Green
                 Write-Host "Enabling PS Remoting on $($computer)..." -ForegroundColor Yellow
                 Set-Location $PSScriptRoot
@@ -85,14 +112,15 @@ function Distribute-Software {
                     Invoke-Command -Session $session -ScriptBlock {
                         param(
                             $path,
-                            $fileName
+                            $fileName,
+                            $DestinationFolder
                         )
-                        if ((Get-Item "C:\Software\$($fileName)").Extension -eq "msi") {
-                            Start-Process msiexec.exe -ArgumentList '/I C:\Software\$($fileName) /quiet' -ErrorAction Stop
+                        if ((Get-Item "$($DestinationFolder)\$($fileName)").Extension -eq "msi") {
+                            Start-Process msiexec.exe -ArgumentList '/I $($DestinationFolder)\$($fileName) /quiet' -ErrorAction Stop
                         } else {
-                            Start-Process "C:\Software\$($fileName)" -ArgumentList "/silent", "/s", "/q", "/quiet", "--silent" -ErrorAction Stop
+                            Start-Process "$($DestinationFolder)\$($fileName)" -ArgumentList "/silent", "/s", "/q", "/quiet", "--silent" -ErrorAction Stop
                         }
-                    } -ArgumentList $Path, $FileName
+                    } -ArgumentList $Path, $FileName, $DestinationFolder
                     Write-Host "Software successfully started!" -ForegroundColor Green
                     $Successful += $computer
                 } else {

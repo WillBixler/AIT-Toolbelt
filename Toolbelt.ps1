@@ -107,7 +107,7 @@ $DCGroup = New-Object System.Windows.Forms.GroupBox
 $DCGroup.Location = New-Object System.Drawing.Size(20, 420)
 $DCGroup.Size = New-Object System.Drawing.Size(570, 300)
 $DCGroup.Text = "Domain Controller Controls"
-if ($machineType -eq 2 -or $Settings.debug) {
+if ($machineType -ne 1 -or $Settings.debug) {
     $main_form.Controls.Add($DCGroup)
 }
 
