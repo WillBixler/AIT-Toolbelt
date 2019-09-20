@@ -16,7 +16,7 @@ Function Tweaks {
     $Console.AppendText("`r`nUpdating power settings...")
     
     $Ultimate = powercfg -l | ForEach-Object{if($_.contains("Ultimate Performance")) {$_.split()[3]}}
-    if ($Ultimate -eq $null) {
+    if ($null -eq $Ultimate) {
       powercfg.exe -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
       $Ultimate = powercfg -l | ForEach-Object{if($_.contains("Ultimate Performance")) {$_.split()[3]}}
     }

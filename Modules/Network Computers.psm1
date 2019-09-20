@@ -54,7 +54,7 @@ function Get-NetworkCredentials {
 
     $AdminAccount = $inputUN
     $AdminPassword = ConvertTo-SecureString $inputPW -AsPlainText -Force
-    return $credentials = New-Object System.Management.Automation.PSCredential $AdminAccount, $AdminPassword
+    return New-Object System.Management.Automation.PSCredential $AdminAccount, $AdminPassword
 
 }
 
@@ -63,7 +63,7 @@ function Get-NetworkComputers {
     # Get computers
 
     Write-Host "Getting network computers... This can take a while..." -ForegroundColor Green
-    return $networkComputers = (([adsi]"WinNT://$((Get-WMIObject Win32_ComputerSystem).Domain)").Children).Where({$_.schemaclassname -eq 'computer'})
+    return (([adsi]"WinNT://$((Get-WMIObject Win32_ComputerSystem).Domain)").Children).Where({$_.schemaclassname -eq 'computer'})
     
 }
 
