@@ -7,7 +7,7 @@ function Remove-Bloatware {
 	$ProgressPreference = "SilentlyContinue"
 
 	# Definitions
-	$bloatware = @("Amazon", "Bing", "HeartsDeluxe", "Mahjong", "Messaging", "Netflix", "OneConnect", "OneNote", "People", "Print3D", "RandomSaladGames", "Snapfish", "Solitaire", "TheWeatherChannel", "TripAdvisor", "Wallet", "Xbox", "Zune")
+	$bloatware = @("Amazon", "Bing", "HeartsDeluxe", "Mahjong", "Messaging", "Netflix", "OneConnect", "OneNote", "People", "Print3D", "RandomSaladGames", "Snapfish", "Solitaire", "TheWeatherChannel", "TripAdvisor", "Wallet", "Maps", "Zune", "Skype", "YourPhone")#, "Xbox")
 	$ignore = @("Microsoft.XboxGameCallableUI", "Microsoft.Windows.PeopleExperienceHost")
 
 	# Count of removed bloatware
@@ -32,12 +32,14 @@ function Remove-Bloatware {
 				}
 			}
 		# Bloatware app not installed on machine
-		} else {
-			$Console.AppendText("`r`n$($app) not installed")
 		}
 	}
 
-	$Console.AppendText("`r`n`r`nDone removing bloatware... Removed $($count) apps!")
+	if ($count -eq 0) {
+		$Console.AppendText("`r`n`r`nNo bloatware was found!")
+	} else {
+		$Console.AppendText("`r`n`r`nDone removing bloatware... Removed $($count) apps!")
+	}
 
 }
 
