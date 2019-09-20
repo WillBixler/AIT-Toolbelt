@@ -99,7 +99,11 @@ function Distribute-Software {
             Write-Host "`r`n`r`nDistributing to $($computer)..." -ForegroundColor Yellow
 
             try {
-                $destinationPath = "\\$($computer)\$($DestinationFolder -replace ":", "$")\$($FileName)"
+                $destinationFolderPath = "\\$($computer)\$($DestinationFolder -replace ":", "$")"
+                if (!(Test-Path -Path $destinationFolderPath)) {
+                    New-Item -ItemType Directory $destinationFolderPath
+                }
+                $destinationPath = "$($destinationFolderPath)\$($FileName)"
                 Write-Host "Destination: $($destinationPath)"
                 Copy-Item -Path $Path -Destination $destinationPath -Recurse -ErrorAction Stop
                 Write-Host "Copied sucessfully..." -ForegroundColor Green
@@ -118,7 +122,7 @@ function Distribute-Software {
                         if ((Get-Item "$($DestinationFolder)\$($fileName)").Extension -eq "msi") {
                             Start-Process msiexec.exe -ArgumentList '/I $($DestinationFolder)\$($fileName) /quiet' -ErrorAction Stop
                         } else {
-                            Start-Process "$($DestinationFolder)\$($fileName)" -ArgumentList "/silent", "/s", "/q", "/quiet", "--silent" -ErrorAction Stop
+                            Start-Process "$($DestinationFolder)\$($fileName)" -ErrorAction Stop
                         }
                     } -ArgumentList $Path, $FileName, $DestinationFolder
                     Write-Host "Software successfully started!" -ForegroundColor Green
