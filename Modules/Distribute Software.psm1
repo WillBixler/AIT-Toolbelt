@@ -112,7 +112,7 @@ function Distribute-Software {
                 ..\PSTools\psexec \\$computer -h -accepteula -nobanner powershell.exe "enable-psremoting -force"
                 Write-Host "Starting software on $($computer)..." -ForegroundColor Yellow
                 $session = New-PSSession -ComputerName $computer -ErrorAction SilentlyContinue
-                if ($session -ne $null) {
+                if ($null -ne $session) {
                     Invoke-Command -Session $session -ScriptBlock {
                         param(
                             $path,
