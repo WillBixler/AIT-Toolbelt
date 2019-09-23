@@ -25,7 +25,8 @@
         "WindowsFeedbackHub",
         "GetHelp",
         "Whiteboard",
-        "NetworkSpeedTest"
+        "NetworkSpeedTest",
+        "HPJumpStart"
     ],
     "Ignore": [
         "Microsoft.XboxGameCallableUI",
