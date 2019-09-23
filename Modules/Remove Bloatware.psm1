@@ -6,9 +6,12 @@ function Remove-Bloatware {
 
 	$ProgressPreference = "SilentlyContinue"
 
+	Set-Location $PSScriptRoot
+	$Definitions = Get-Content -Path "..\Resources\BloatwareDefinitions.json" | ConvertFrom-Json
+
 	# Definitions
-	$bloatware = @("Amazon", "Bing", "HeartsDeluxe", "Mahjong", "Messaging", "Netflix", "OneConnect", "OneNote", "People", "Print3D", "RandomSaladGames", "Snapfish", "Solitaire", "TheWeatherChannel", "TripAdvisor", "Wallet", "Maps", "Zune", "Skype", "YourPhone", "Xbox")
-	$ignore = @("Microsoft.XboxGameCallableUI", "Microsoft.Windows.PeopleExperienceHost")
+	$bloatware = $Definitions.Bloatware
+	$ignore = $Definitions.Ignore
 	$foundBloatware = [System.Collections.ArrayList] @()
 
 	$removedCount = 0

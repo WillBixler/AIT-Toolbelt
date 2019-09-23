@@ -1,0 +1,34 @@
+{
+    "Bloatware": [
+        "Amazon",
+        "Bing",
+        "HeartsDeluxe",
+        "Mahjong",
+        "Messaging",
+        "Netflix",
+        "OneConnect",
+        "OneNote",
+        "People",
+        "Print3D",
+        "RandomSaladGames",
+        "Snapfish",
+        "Solitaire",
+        "TheWeatherChannel",
+        "TripAdvisor",
+        "Wallet",
+        "Maps",
+        "Zune",
+        "Skype",
+        "YourPhone",
+        "Xbox",
+        "Todos",
+        "WindowsFeedbackHub",
+        "GetHelp",
+        "Whiteboard",
+        "NetworkSpeedTest"
+    ],
+    "Ignore": [
+        "Microsoft.XboxGameCallableUI",
+        "Microsoft.Windows.PeopleExperienceHost"
+    ]
+}
