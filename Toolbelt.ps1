@@ -23,9 +23,9 @@ if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue)
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 $machineType = $osInfo.ProductType
 switch ($machineType) {
-    1 {Write-Host "Machine type: Workstation" -ForegroundColor Yellow}
-    2 {Write-Host "Machine type: Domain Controller" -ForegroundColor Yellow}
-    3 {Write-Host "Machine type: Server" -ForegroundColor Yellow}
+    1 { Write-Host "Machine type: Workstation" -ForegroundColor Yellow }
+    2 { Write-Host "Machine type: Domain Controller" -ForegroundColor Yellow }
+    3 { Write-Host "Machine type: Server" -ForegroundColor Yellow }
 }
 
 Write-Host "Building GUI..." -ForegroundColor Yellow
