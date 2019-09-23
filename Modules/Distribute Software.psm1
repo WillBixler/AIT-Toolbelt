@@ -1,6 +1,6 @@
 Import-Module "$PSScriptRoot\Network Computers.psm1" -Force
 
-function Distribute-Software {
+function Push-Software {
     param (
         [System.Windows.Forms.RichTextBox]$Console
     )
@@ -171,4 +171,4 @@ function Distribute-Software {
     }
 }
 
-Export-ModuleMember -Function Distribute-Software
+Export-ModuleMember -Function Push-Software

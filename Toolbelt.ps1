@@ -3,7 +3,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Import modules
 Import-Module "$PSScriptRoot\Modules\Remove Bloatware.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
-Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force -WarningAction SilentlyContinue
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -117,7 +117,7 @@ $DistrubuteSoftware.Location = New-Object System.Drawing.Size(20, 20)
 $DistrubuteSoftware.Size = New-Object System.Drawing.Size(255, 50)
 $DistrubuteSoftware.Font = $ButtonFont
 $DistrubuteSoftware.Add_Click( {
-    Distribute-Software -Console $Console
+    Push-Software -Console $Console
 })
 $DCGroup.Controls.Add($DistrubuteSoftware)
 
