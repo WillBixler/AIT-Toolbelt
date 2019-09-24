@@ -7,29 +7,32 @@ function Install-Pulseway {
 
     $Console.AppendText("Installing Pulseway...")
     $Console.AppendText("`r`nChecking for previous installations...")
+    
+    $pw = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where-Object { $_.DisplayName -like "Pulseway" }
 
-    if ($null -ne (Get-WmiObject Win32_Product -Filter "Name like '%Pulseway%'")) {
+    if ($null -ne $pw) {
         $Console.AppendText("`r`nPulseway already installed")
-    } else {
-        $Console.AppendText("`r`n`tNo installation found")
-        
-        try {
-            $Console.AppendText("`r`nDownloading...")
+        return
+    }
     
-            $url = "https://www.pulseway.com/download/Pulseway_x64.msi"
-            $fileOut = "C:\SOFTWARE\PW Installer.msi"
+    $Console.AppendText("`r`n`tNo installation found")
     
-            Invoke-WebRequest -Uri $url -OutFile $fileOut
-    
-            $Console.AppendText("`r`nRunning installer...")
-    
-            Start-Process $fileOut
-    
-            $Console.AppendText("`r`nSuccess")
-        }
-        catch {
-            $Console.AppendText("`r`nFailed")
-        }
+    try {
+        $Console.AppendText("`r`nDownloading...")
+
+        $url = "https://www.pulseway.com/download/Pulseway_x64.msi"
+        $fileOut = "C:\SOFTWARE\PW Installer.msi"
+
+        Invoke-WebRequest -Uri $url -OutFile $fileOut
+
+        $Console.AppendText("`r`nRunning installer...")
+
+        Start-Process $fileOut
+
+        $Console.AppendText("`r`nSuccess")
+    }
+    catch {
+        $Console.AppendText("`r`nFailed")
     }
     
 }

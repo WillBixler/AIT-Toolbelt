@@ -123,15 +123,14 @@ $InstallPulseway.Add_Click( {
 })
 $WorkstationGroup.Controls.Add($InstallPulseway)
 
-# ---------------------------------------- BEGIN SERVER CONTROLS ----------------------------------------
+# ---------------------------------------- BEGIN NETWORK CONTROLS ----------------------------------------
 
 $DCGroup = New-Object System.Windows.Forms.GroupBox
 $DCGroup.Location = New-Object System.Drawing.Size(20, 420)
 $DCGroup.Size = New-Object System.Drawing.Size(570, 300)
-$DCGroup.Text = "Domain Controller Controls"
-if ($machineType -ne 1 -or $Settings.debug) {
-    $main_form.Controls.Add($DCGroup)
-}
+$DCGroup.Text = "Network Controls"
+
+$main_form.Controls.Add($DCGroup)
 
 $DistrubuteSoftware = New-Object System.Windows.Forms.Button
 $DistrubuteSoftware.Text = "Distribute Software"
