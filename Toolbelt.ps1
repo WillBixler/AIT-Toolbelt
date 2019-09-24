@@ -3,7 +3,8 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Import modules
 Import-Module "$PSScriptRoot\Modules\Remove Bloatware.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
-Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force -WarningAction SilentlyContinue
+Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Install ScreenConnect.psm1" -Force
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -100,6 +101,16 @@ $Tweaks.Add_Click( {
     Tweaks $Console
 })
 $WorkstationGroup.Controls.Add($Tweaks)
+
+$InstallScreenConnect = New-Object System.Windows.Forms.Button
+$InstallScreenConnect.Text = "Install ScreenConnect"
+$InstallScreenConnect.Location = New-Object System.Drawing.Size(20, 80)
+$InstallScreenConnect.Size = New-Object System.Drawing.Size(255, 50)
+$InstallScreenConnect.Font = $ButtonFont
+$InstallScreenConnect.Add_Click( {
+    Install-ScreenConnect $Console
+})
+$WorkstationGroup.Controls.Add($InstallScreenConnect)
 
 # ---------------------------------------- BEGIN SERVER CONTROLS ----------------------------------------
 
