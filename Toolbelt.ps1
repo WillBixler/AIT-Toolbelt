@@ -5,6 +5,7 @@ Import-Module "$PSScriptRoot\Modules\Remove Bloatware.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
 Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install ScreenConnect.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Install Pulseway.psm1" -Force
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -111,6 +112,16 @@ $InstallScreenConnect.Add_Click( {
     Install-ScreenConnect $Console
 })
 $WorkstationGroup.Controls.Add($InstallScreenConnect)
+
+$InstallPulseway = New-Object System.Windows.Forms.Button
+$InstallPulseway.Text = "Install Pulseway"
+$InstallPulseway.Location = New-Object System.Drawing.Size(295, 80)
+$InstallPulseway.Size = New-Object System.Drawing.Size(255, 50)
+$InstallPulseway.Font = $ButtonFont
+$InstallPulseway.Add_Click( {
+    Install-Pulseway $Console
+})
+$WorkstationGroup.Controls.Add($InstallPulseway)
 
 # ---------------------------------------- BEGIN SERVER CONTROLS ----------------------------------------
 
