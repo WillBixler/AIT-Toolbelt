@@ -22,6 +22,14 @@ if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue)
     (Get-Item "$PSScriptRoot\Settings.json" -Force).Attributes += "Hidden"
 }
 
+if (Get-Item "$PSScriptRoot\Info.json" -Force -ErrorAction SilentlyContinue) {
+    Write-Host "Found Info file... Loading..." -ForegroundColor Yellow
+
+    $Info = Get-Content "$PSScriptRoot\Info.json" | ConvertFrom-Json -ErrorAction SilentlyContinue
+} else {
+    Write-Host "Info file not found." -ForegroundColor Yellow
+}
+
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 $machineType = $osInfo.ProductType
 switch ($machineType) {
@@ -55,6 +63,15 @@ $Logo.Height = $LogoImg.Size.Height
 $Logo.Image = $LogoImg
 $Logo.Location = New-Object System.Drawing.Size([int]($main_form.Width / 2 - $Logo.Width / 2), 10)
 $main_form.controls.add($Logo)
+
+# ---------------------------------------- BEGIN Version ----------------------------------------
+
+$Version = new-object Windows.Forms.Label
+$Version.Width = 100
+$Version.Height = 20
+$Version.Text = "Version: " + $Info.Version
+$Version.Location = New-Object System.Drawing.Size(10, 10)
+$main_form.controls.add($Version)
 
 # ---------------------------------------- BEGIN CONSOLE ----------------------------------------
 
