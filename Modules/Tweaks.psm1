@@ -57,14 +57,43 @@ Function Tweaks {
         $Console.AppendText("`r`n`tFailed")
     }
 
+    $Console.AppendText("`r`nDisabling hibernation")
+    try {
+        powercfg.exe /H off
+        $Console.AppendText("`r`n`tSuccess")
+    }
+    catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
+
+    $Console.AppendText("`r`nDisabling sleep button")
+    try {
+        powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+        powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+        $Console.AppendText("`r`n`tSuccess")
+    }
+    catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
+
+    $Console.AppendText("`r`nDisabling wake timers")
+    try {
+        powercfg -setacvalueindex SCHEME_CURRENT 238c9fa8-0aad-41ed-83f4-97be242c8f20 bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d 0
+        powercfg -setdcvalueindex SCHEME_CURRENT 238c9fa8-0aad-41ed-83f4-97be242c8f20 bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d 0
+        $Console.AppendText("`r`n`tSuccess")
+    }
+    catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
+
     $Console.AppendText("`r`nDisabling USB selective suspend")
     try {
         powercfg /SETDCVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0
         powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0
-        $Console.AppendText("`r`n`rSuccess")
+        $Console.AppendText("`r`n`tSuccess")
     }
     catch {
-        $Console.AppendText("`r`n`rFailed")
+        $Console.AppendText("`r`n`tFailed")
     }
 
     $Console.AppendText("`r`nDisabling network adapter power management...")
