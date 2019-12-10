@@ -23,6 +23,10 @@ function Install-Pulseway {
         $url = "https://www.pulseway.com/download/Pulseway_x64.msi"
         $fileOut = "C:\SOFTWARE\PW Installer.msi"
 
+        if (!(Get-Item "C:\SOFTWARE" -ErrorAction SilentlyContinue)) {
+            New-Item "C:\SOFTWARE" -ItemType Directory
+        }
+        
         Invoke-WebRequest -Uri $url -OutFile $fileOut
 
         $Console.AppendText("`r`nRunning installer...")
