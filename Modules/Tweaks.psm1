@@ -99,17 +99,31 @@ Function Tweaks {
     $Console.AppendText("`r`nDisabling network adapter power management...")
     $adapters = Get-NetAdapter -Physical | Get-NetAdapterPowerManagement
     $adapters | ForEach-Object {
+        $Console.AppendText("`r`n`t$($_.Name)")
         if ($_.AllowComputerToTurnOffDevice -like "*Disabled*") {
-            $Console.AppendText("`r`n`t$($_.InterfaceDescription)")
             $Console.AppendText("`r`n`t`tAlready Disabled")
         } else {
             try {
                 $_.AllowComputerToTurnOffDevice = 'Disabled'
                 $_ | Set-NetAdapterPowerManagement -ErrorAction Stop
-                $Console.AppendText("`r`n`t$($_.InterfaceDescription)")
                 $Console.AppendText("`r`n`t`tSuccess")
             } catch {
-                $Console.AppendText("`r`n`t$($_.InterfaceDescription)")
+                $Console.AppendText("`r`n`t`tFailed")
+            }
+        }
+    }
+
+    $Console.AppendText("`r`nDisabling IPv6...")
+    $adapters = Get-NetAdapter -Physical
+    $adapters | ForEach-Object {
+        $Console.AppendText("`r`n`t$($_.Name)")
+        if ((Get-NetAdapterBinding -Name $_.Name -ComponentID ms_tcpip6).Enabled -like "*False*") {
+            $Console.AppendText("`r`n`t`tAlready Disabled")
+        } else {
+            try {
+                Disable-NetAdapterBinding -Name $_.Name -ComponentID ms_tcpip6 -PassThru
+                $Console.AppendText("`r`n`t`tSuccess")
+            } catch {
                 $Console.AppendText("`r`n`t`tFailed")
             }
         }
