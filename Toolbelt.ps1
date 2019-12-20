@@ -6,6 +6,7 @@ Import-Module "$PSScriptRoot\Modules\Tweaks.psm1"
 Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install ScreenConnect.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Pulseway.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Install Chrome.psm1" -Force
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -139,6 +140,16 @@ $InstallPulseway.Add_Click( {
     Install-Pulseway $Console
 })
 $WorkstationGroup.Controls.Add($InstallPulseway)
+
+$InstallChrome = New-Object System.Windows.Forms.Button
+$InstallChrome.Text = "Install Chrome"
+$InstallChrome.Location = New-Object System.Drawing.Size(20, 140)
+$InstallChrome.Size = New-Object System.Drawing.Size(255, 50)
+$InstallChrome.Font = $ButtonFont
+$InstallChrome.Add_Click( {
+    Install-Chrome $Console
+})
+$WorkstationGroup.Controls.Add($InstallChrome)
 
 # ---------------------------------------- BEGIN NETWORK CONTROLS ----------------------------------------
 
