@@ -129,6 +129,18 @@ Function Tweaks {
         }
     }
 
+    $Console.AppendText("`r`nDisabling Wifi adapter...")
+    if ((get-wmiobject win32_networkadapter | Where-Object {$_.NetConnectionID -like "*Wi-Fi*"}).NetConnectionStatus -ne 2) {
+        try {
+            Disable-NetAdapter -Name "Wi-Fi" -Confirm:$false
+            $Console.AppendText("`r`n`tSuccess")
+        } catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    } else {
+        $Console.AppendText("`r`n`tWifi adapter in use")
+    }
+
     $Console.AppendText("`r`n`r`nDone!")
 }
 
