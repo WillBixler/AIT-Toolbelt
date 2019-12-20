@@ -141,6 +141,18 @@ Function Tweaks {
         $Console.AppendText("`r`n`tWifi adapter in use")
     }
 
+    $Console.AppendText("`r`nSetting time zone...")
+    if ((Get-TimeZone).Id -like "Mountain Standard Time") {
+        $Console.AppendText("`r`n`tTime zone already set.")
+    } else {
+        try {
+            Set-TimeZone -Id "Mountain Standard Time" -PassThru
+            $Console.AppendText("`r`n`tSuccess")
+        } catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
     $Console.AppendText("`r`n`r`nDone!")
 }
 
