@@ -114,7 +114,7 @@ Function Tweaks {
     }
 
     $Console.AppendText("`r`nDisabling IPv6...")
-    $adapters = Get-NetAdapter -Physical
+    $adapters = Get-NetAdapter
     $adapters | ForEach-Object {
         $Console.AppendText("`r`n`t$($_.Name)")
         if ((Get-NetAdapterBinding -Name $_.Name -ComponentID ms_tcpip6).Enabled -like "*False*") {
