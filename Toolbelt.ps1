@@ -7,6 +7,7 @@ Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install ScreenConnect.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Pulseway.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Chrome.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Update.psm1" -Force
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -73,6 +74,18 @@ $Version.Height = 20
 $Version.Text = "Version: " + $Info.Version
 $Version.Location = New-Object System.Drawing.Size(10, 10)
 $main_form.controls.add($Version)
+
+$UpdateButton = New-Object System.Windows.Forms.Button
+$UpdateButton.Text = "Update"
+$UpdateButton.Location = New-Object System.Drawing.Size(10, 30)
+$UpdateButton.Size = New-Object System.Drawing.Size(70, 20)
+#$UpdateButton.Font = $ButtonFont
+$UpdateButton.Add_Click( {
+    if ((Update $Console $PSScriptRoot $Info.Version) -eq $true) {
+        $main_form.Close();
+    }
+})
+$main_form.Controls.Add($UpdateButton)
 
 # ---------------------------------------- BEGIN CONSOLE ----------------------------------------
 
