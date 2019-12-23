@@ -7,6 +7,7 @@ Import-Module "$PSScriptRoot\Modules\Distribute Software.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install ScreenConnect.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Pulseway.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Chrome.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Install Acrobat Reader.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Update.psm1" -Force
 
 # Import settings
@@ -163,6 +164,16 @@ $InstallChrome.Add_Click( {
     Install-Chrome $Console
 })
 $WorkstationGroup.Controls.Add($InstallChrome)
+
+$InstallReader = New-Object System.Windows.Forms.Button
+$InstallReader.Text = "Install Adobe Acrobat Reader DC"
+$InstallReader.Location = New-Object System.Drawing.Size(295, 140)
+$InstallReader.Size = New-Object System.Drawing.Size(255, 50)
+$InstallReader.Font = $ButtonFont
+$InstallReader.Add_Click( {
+    Install-AcrobatReader $Console
+})
+$WorkstationGroup.Controls.Add($InstallReader)
 
 # ---------------------------------------- BEGIN NETWORK CONTROLS ----------------------------------------
 

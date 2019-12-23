@@ -5,13 +5,13 @@ function Install-Chrome {
 
     $Console.Clear()
 
-    $Console.AppendText("Installing Chrome...")
+    $Console.AppendText("Installing Google Chrome...")
     $Console.AppendText("`r`nChecking for previous installations...")
     
-    $chrome = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where-Object { $_.DisplayName -like "Chrome" }
+    $chrome = Get-Item "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" -ErrorAction SilentlyContinue
 
     if ($null -ne $chrome) {
-        $Console.AppendText("`r`nChrome already installed")
+        $Console.AppendText("`r`nGoogle Chrome is already installed")
         return
     }
     
