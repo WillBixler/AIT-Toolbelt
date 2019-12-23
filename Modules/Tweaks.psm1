@@ -49,8 +49,8 @@ Function Tweaks {
     try {
         powercfg.exe /X standby-timeout-ac 0
         powercfg.exe /X standby-timeout-dc 0
-        powercfg.exe /X monitor-timeout-ac 30
-        powercfg.exe /X monitor-timeout-dc 30
+        powercfg.exe /X monitor-timeout-ac 0
+        powercfg.exe /X monitor-timeout-dc 0
         $Console.AppendText("`r`n`tSuccess")
     }
     catch {
