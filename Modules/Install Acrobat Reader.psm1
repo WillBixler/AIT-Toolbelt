@@ -21,7 +21,7 @@ function Install-AcrobatReader {
         $Console.AppendText("`r`nDownloading...")
 
         $url = "https://admdownload.adobe.com/bin/live/readerdc_en_xa_cra_install.exe"
-        $fileOut = "C:\SOFTWARE\AdobeReader.msi"
+        $fileOut = "C:\SOFTWARE\readerdc_en_xa_cra_install.exe"
 
         if (!(Get-Item "C:\SOFTWARE" -ErrorAction SilentlyContinue)) {
             New-Item "C:\SOFTWARE" -ItemType Directory
