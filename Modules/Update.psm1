@@ -36,7 +36,8 @@ Function Update {
 
     Set-Location $ScriptRoot
     $Console.AppendText("`r`n`r`nFinding local changes...")
-    Start-Process "C:\Program Files\Git\git-cmd.exe" -ArgumentList { "git add . && git commit -m 'ff' && git fetch --all && git reset --hard origin/master && exit" } -Wait
+    Start-Process "C:\Program Files\Git\git-cmd.exe" -ArgumentList { "git add . && git commit -m 'ff' && exit" } -Wait
+    Start-Process "C:\Program Files\Git\git-cmd.exe" -ArgumentList { "git fetch --all && git reset --hard origin/master && exit" } -Wait
     $Console.AppendText("`r`nFinding and installing updates...")
     Start-Process "C:\Program Files\Git\git-cmd.exe" -ArgumentList { "git pull && exit" } -Wait
 
