@@ -153,6 +153,70 @@ Function Tweaks {
         }
     }
 
+    $Console.AppendText("`r`n`r`nTaskbar Tweaks...")
+
+    $Console.AppendText("`r`nHiding search box...")
+    $Searchbar = Get-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search | Select-Object SearchboxTaskbarMode
+    if ($Searchbar -like "*0*") {
+        $Console.AppendText("`r`n`tAlready hidden")
+    } else {
+        try {
+            Set-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search -Name SearchboxTaskbarMode -Value 0
+            $Console.AppendText("`r`n`tSuccess")
+        }
+        catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
+    $Console.AppendText("`r`nHiding task view button...")
+    $Taskview = Get-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced | Select-Object ShowTaskViewButton
+    if ($Taskview -like "*0*") {
+        $Console.AppendText("`r`n`tAlready hidden")
+    } else {
+        try {
+            Set-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowTaskViewButton -Value 0
+            $Console.AppendText("`r`n`tSuccess")
+        }
+        catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
+    $Console.AppendText("`r`nHiding Cortana button...")
+    $Taskview = Get-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" | Select-Object AllowCortana
+    if ($Taskview -like "*0*") {
+        $Console.AppendText("`r`n`tAlready hidden")
+    } else {
+        try {
+            if (!(Get-Item -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -ErrorAction SilentlyContinue)) {
+                New-Item -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+            }
+            Set-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name AllowCortana -Value 0
+            $Console.AppendText("`r`n`tSuccess")
+        }
+        catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
+    $Console.AppendText("`r`nHiding People button...")
+    $Taskview = Get-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People | Select-Object PeopleBand
+    if ($Taskview -like "*0*") {
+        $Console.AppendText("`r`n`tAlready hidden")
+    } else {
+        try {
+            Set-ItemProperty -Path REGISTRY::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People -Name PeopleBand -Value 0
+            $Console.AppendText("`r`n`tSuccess")
+        }
+        catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
+    $Console.AppendText("`r`n`r`nRestarting Windows Explorer...")
+    Stop-Process -ProcessName explorer
+
     $Console.AppendText("`r`n`r`nDone!")
 }
 
