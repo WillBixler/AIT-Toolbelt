@@ -1,3 +1,6 @@
+
+Import-Module "$PSScriptRoot\OEM info.psm1" -Force
+
 Function Tweaks {
 
 	param(
@@ -216,6 +219,8 @@ Function Tweaks {
 
     $Console.AppendText("`r`n`r`nRestarting Windows Explorer...")
     Stop-Process -ProcessName explorer
+
+    Set-OEM $Console
 
     $Console.AppendText("`r`n`r`nDone!")
 }
