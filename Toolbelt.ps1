@@ -30,7 +30,14 @@ if (Get-Item "$PSScriptRoot\Info.json" -Force -ErrorAction SilentlyContinue) {
 
     $Info = Get-Content "$PSScriptRoot\Info.json" | ConvertFrom-Json -ErrorAction SilentlyContinue
 } else {
-    Write-Host "Info file not found." -ForegroundColor Yellow
+    Write-Host "Info file not found... Creating it..." -ForegroundColor Yellow
+
+    $Info = New-Object -TypeName psobject
+    $Info | Add-Member -MemberType NoteProperty -Name Name -Value "Aspire IT Toolbelt"
+    $Info | Add-Member -MemberType NoteProperty -Name Version -Value "0.0.0"
+
+    $Info | ConvertTo-Json | Out-File "$PSScriptRoot\Info.json"
+    (Get-Item "$PSScriptRoot\Info.json" -Force).Attributes += "Hidden"
 }
 
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
