@@ -217,6 +217,9 @@ Function Tweaks {
         }
     }
 
+    $Console.AppendText("`r`nHiding Taskbar labels...")
+    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer -Name NoTaskGrouping -Value 0
+
     $Console.AppendText("`r`n`r`nRestarting Windows Explorer...")
     Stop-Process -ProcessName explorer
 
