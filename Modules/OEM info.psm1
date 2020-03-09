@@ -16,8 +16,6 @@ Function Set-OEM {
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation -Name SupportURL "https://www.aspire-it.net/"
     }
 
-    $Console.AppendText("`r`n`r`n`r`n$(($PSScriptRoot.TrimEnd("\Modules")))`r`n`r`n`r`n")
-
 }
 
 Export-ModuleMember -Function Set-OEM
