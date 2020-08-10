@@ -132,6 +132,7 @@ Function Tweaks {
         }
     }
 
+    <#
     $Console.AppendText("`r`nDisabling Wifi adapter...")
     if ((get-wmiobject win32_networkadapter | Where-Object {$_.NetConnectionID -like "*Wi-Fi*"}).NetConnectionStatus -ne 2) {
         try {
@@ -143,6 +144,7 @@ Function Tweaks {
     } else {
         $Console.AppendText("`r`n`tWifi adapter in use")
     }
+    #>
 
     $Console.AppendText("`r`nSetting time zone...")
     if ((Get-TimeZone).Id -like "Mountain Standard Time") {
