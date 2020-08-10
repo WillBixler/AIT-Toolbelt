@@ -43,11 +43,13 @@ Function Update {
 
     $NewVersion = (Get-Content "$ScriptRoot\Info.json" | ConvertFrom-Json -ErrorAction SilentlyContinue).Version
     
+    <#
     if ($tempGit) {
         $Console.AppendText("`r`nRemoving temp git...")
         $GitRegKey = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where-Object { $_.DisplayName -like "Git*" }
         Start-Process $GitRegKey.UninstallString /Silent -Wait
     }
+    #>
 
     $Console.AppendText("`r`n`r`nDone!")
     if ($CurrentVersion -like $NewVersion) {
