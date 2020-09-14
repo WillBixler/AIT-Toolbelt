@@ -37,7 +37,6 @@ if (Get-Item "$PSScriptRoot\Info.json" -Force -ErrorAction SilentlyContinue) {
     $Info | Add-Member -MemberType NoteProperty -Name Version -Value "0.0.0"
 
     $Info | ConvertTo-Json | Out-File "$PSScriptRoot\Info.json"
-    (Get-Item "$PSScriptRoot\Info.json" -Force).Attributes += "Hidden"
 }
 
 $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
