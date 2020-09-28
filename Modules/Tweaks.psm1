@@ -99,6 +99,16 @@ Function Tweaks {
         $Console.AppendText("`r`n`tFailed")
     }
 
+    $Console.AppendText("`r`nDisabling Intel Graphics Command Center")
+    try {
+        Set-Service igccservice -StartupType Disabled
+        Stop-Service igccservice
+        $Console.AppendText("`r`n`tSuccess")
+    }
+    catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
+
     $Console.AppendText("`r`nDisabling network adapter power management...")
     $adapters = Get-NetAdapter -Physical | Get-NetAdapterPowerManagement
     $adapters | ForEach-Object {

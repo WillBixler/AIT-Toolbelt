@@ -20,13 +20,13 @@ function Push-Software {
     if (Get-Item -Path $Path) {
 
         $Console.AppendText("`r`n`r`nFinding Network Computers...")
-        
-        $Console.AppendText("`r`n`r`nDistributing $($FileBrowser.SafeFileName)... This can take a while...")
-        $Console.AppendText("`r`nPlease switch to the PowerShell console for progress...")
 
         $Computers = Get-NetworkComputers
         $Successful = @()
         $Failed = @()
+        
+        $Console.AppendText("`r`n`r`nDistributing $($FileBrowser.SafeFileName)... This can take a while...")
+        $Console.AppendText("`r`nPlease switch to the PowerShell console for progress...")
 
         $PrimaryFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 12, [System.Drawing.FontStyle]::Regular)
         $SecondaryFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 10, [System.Drawing.FontStyle]::Regular)
