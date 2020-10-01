@@ -168,6 +168,20 @@ Function Tweaks {
         }
     }
 
+    $Console.AppendText("`r`nDisabling Game Bar...")
+    $Gamebar = Get-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" | Select-Object value
+    if ($Gamebar -like "*0*") {
+        $Console.AppendText("`r`n`tAlready disabled")
+    } else {
+        try {
+            Set-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name value -Value 0
+            $Console.AppendText("`r`n`tSuccess")
+        }
+        catch {
+            $Console.AppendText("`r`n`tFailed")
+        }
+    }
+
     $Console.AppendText("`r`n`r`nTaskbar Tweaks...")
 
     $Console.AppendText("`r`nHiding search box...")
