@@ -157,7 +157,10 @@ Function Tweaks {
     #>
 
     $Console.AppendText("`r`nEnabling network discovery...")
-    Rename-Computer "OP4-PKR" -Restart
+    netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
+
+    $Console.AppendText("`r`nEnabling file and printer sharing...")
+    netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
 
     $Console.AppendText("`r`nSetting time zone...")
     if ((Get-TimeZone).Id -like "Mountain Standard Time") {
