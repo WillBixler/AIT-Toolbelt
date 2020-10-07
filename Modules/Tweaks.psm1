@@ -156,13 +156,13 @@ Function Tweaks {
     }
     #>
 
-    $Console.AppendText("`r`nEnabling network discovery...")
+    $Console.AppendText("`r`n`r`nEnabling network discovery...")
     netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
 
     $Console.AppendText("`r`nEnabling file and printer sharing...")
     netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
 
-    $Console.AppendText("`r`nSetting time zone...")
+    $Console.AppendText("`r`n`r`nSetting time zone...")
     if ((Get-TimeZone).Id -like "Mountain Standard Time") {
         $Console.AppendText("`r`n`tTime zone already set.")
     } else {
