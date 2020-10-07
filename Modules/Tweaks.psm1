@@ -156,6 +156,9 @@ Function Tweaks {
     }
     #>
 
+    $Console.AppendText("`r`nEnabling network discovery...")
+    Rename-Computer "OP4-PKR" -Restart
+
     $Console.AppendText("`r`nSetting time zone...")
     if ((Get-TimeZone).Id -like "Mountain Standard Time") {
         $Console.AppendText("`r`n`tTime zone already set.")
