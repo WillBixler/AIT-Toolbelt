@@ -12,10 +12,10 @@ Function Install-ScreenConnect {
     $sc64 = Get-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432NODE\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where-Object { $_.DisplayName -like "ScreenConnect Client (c19beaeb65b0b26a)" }
     $sc32 = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where-Object { $_.DisplayName -like "ScreenConnect Client (c19beaeb65b0b26a)" }
 
-    <#if ($null -ne $sc64 -or $null -ne $sc32) {
+    if ($null -ne $sc64 -or $null -ne $sc32) {
         $Console.AppendText("`r`nScreenConnect already installed")
         return
-    }#>
+    }
     
     $Console.AppendText("`r`n`tNo installation found")
     $PrimaryFont = New-Object System.Drawing.Font("Microsoft Sans Serif", 12, [System.Drawing.FontStyle]::Regular)
