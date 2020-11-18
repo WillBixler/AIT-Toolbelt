@@ -167,7 +167,18 @@ function SubmitForm {
         $urlSafeDepartment = [uri]::EscapeDataString($department)
         $urlSafeDeviceType = [uri]::EscapeDataString($deviceType)
         $url = "https://my.aspire-it.net/Bin/ConnectWiseControl.ClientSetup.exe?h=my.aspire-it.net&p=8041&k=BgIAAACkAABSU0ExAAgAAAEAAQCj8wgfBe3jCNxLcoKqDEKgbt8yZp0OQH3Ou%2FaFk0FpGWuV4xtl%2FMLDV6EsR1UIcSnXlbjc%2BsWBTVo5Iz7BsgsgyykHj%2FLVFxfyQOtN7TQ%2BI4TSQdAHW%2Bppb%2Bq3MznfQEd0AltrrPEckK58ewOaHcu7Bbs9QGc4KFJvWX0bZiC3apCpmcKthpo3wn3Buw1t9HnolgcTaNtbcnnQ%2Ff64nGPBg1XJX72I2XzJTFAztD8KoKURkYKn9hQwtCZ3bp9U3H8Sk97uzMs9Y4Xo7fGrbGObFQfPSEniKvkgii48heBrAIQjQUdCW1RIgpQCSpys%2FEpnWL3wvj%2F18F8%2BBGelqqHH&e=Access&y=Guest&t=&c=$($urlSafeCompany)&c=$($urlSafeSite)&c=$($urlSafeDepartment)&c=$($urlSafeDeviceType)&c=&c=&c=&c="
-        $fileOut = "C:\SOFTWARE\$($company) SC Client.exe"
+        $fileName = $company
+        if ($site -ne "") {
+            $fileName += "~$($site)"
+        }
+        if ($department -ne "") {
+            $fileName += "~$($department)"
+        }
+        if ($deviceType -ne "") {
+            $fileName += "~$($deviceType)"
+        }
+
+        $fileOut = "C:\SOFTWARE\$($fileName) SC Client.exe"
 
         if (!(Get-Item "C:\SOFTWARE" -ErrorAction SilentlyContinue)) {
             New-Item "C:\SOFTWARE" -ItemType Directory
