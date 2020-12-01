@@ -23,7 +23,7 @@ Function Tweaks {
         }
     }
 
-    $Console.AppendText("Disabling Windows Defender...")
+    $Console.AppendText("`r`n`r`nDisabling Windows Defender...")
     try {
         netsh.exe advfirewall set allprofiles state off
         $Console.AppendText("`r`n`tSuccess")
@@ -31,7 +31,7 @@ Function Tweaks {
         $Console.AppendText("`r`n`tFailed")
     }
     
-    $Console.AppendText("Enabling Network Discovery...")
+    $Console.AppendText("`r`n`r`nEnabling Network Discovery...")
     try {
         netsh.exe advfirewall firewall set rule group="Network Discovery" new enable=Yes
         $Console.AppendText("`r`n`tSuccess")
