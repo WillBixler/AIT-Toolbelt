@@ -22,7 +22,22 @@ Function Tweaks {
             $Console.AppendText("`r`n`tFailed")
         }
     }
+
+    $Console.AppendText("Disabling Windows Defender...")
+    try {
+        netsh.exe advfirewall set allprofiles state off
+        $Console.AppendText("`r`n`tSuccess")
+    } catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
     
+    $Console.AppendText("Enabling Network Discovery...")
+    try {
+        netsh.exe advfirewall firewall set rule group="Network Discovery" new enable=Yes
+        $Console.AppendText("`r`n`tSuccess")
+    } catch {
+        $Console.AppendText("`r`n`tFailed")
+    }
     
     $Console.AppendText("`r`n`r`nRemoving Start Menu Pins...")
     (New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ForEach-Object{ $_.Verbs() } | Where-Object{$_.Name -match 'Un.*pin from Start'} | ForEach-Object{$_.DoIt()}
@@ -71,6 +86,10 @@ Function Tweaks {
 
     $Console.AppendText("`r`nDisabling sleep button")
     try {
+        New-Item -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power" -ErrorAction SilentlyContinue
+        New-Item -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\PowerSettings" -ErrorAction SilentlyContinue
+        New-Item -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\PowerSettings\abfc2519-3608-4c2a-94ea-171b0ed546ab" -ErrorAction SilentlyContinue
+        Set-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\PowerSettings\abfc2519-3608-4c2a-94ea-171b0ed546ab" -Name ACSettingIndex -Value 0
         powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
         powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
         $Console.AppendText("`r`n`tSuccess")
