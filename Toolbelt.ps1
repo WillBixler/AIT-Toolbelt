@@ -9,6 +9,7 @@ Import-Module "$PSScriptRoot\Modules\Install Pulseway.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Chrome.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Install Acrobat Reader.psm1" -Force
 Import-Module "$PSScriptRoot\Modules\Update.psm1" -Force
+Import-Module "$PSScriptRoot\Modules\Workgroup Tweaks.psm1" -Force
 
 # Import settings
 if (Get-Item "$PSScriptRoot\Settings.json" -Force -ErrorAction SilentlyContinue) {
@@ -180,6 +181,16 @@ $InstallReader.Add_Click( {
     Install-AcrobatReader $Console
 })
 $WorkstationGroup.Controls.Add($InstallReader)
+
+$WorkgroupTweaks = New-Object System.Windows.Forms.Button
+$WorkgroupTweaks.Text = "WORKGROUP Tweaks"
+$WorkgroupTweaks.Location = New-Object System.Drawing.Size(20, 200)
+$WorkgroupTweaks.Size = New-Object System.Drawing.Size(255, 50)
+$WorkgroupTweaks.Font = $ButtonFont
+$WorkgroupTweaks.Add_Click( {
+    Install-AcrobatReader $Console
+})
+$WorkstationGroup.Controls.Add($WorkgroupTweaks)
 
 # ---------------------------------------- BEGIN NETWORK CONTROLS ----------------------------------------
 
