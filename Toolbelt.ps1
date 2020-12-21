@@ -188,7 +188,7 @@ $WorkgroupTweaks.Location = New-Object System.Drawing.Size(20, 200)
 $WorkgroupTweaks.Size = New-Object System.Drawing.Size(255, 50)
 $WorkgroupTweaks.Font = $ButtonFont
 $WorkgroupTweaks.Add_Click( {
-    Install-AcrobatReader $Console
+    WorkgroupTweaks $Console
 })
 $WorkstationGroup.Controls.Add($WorkgroupTweaks)
 

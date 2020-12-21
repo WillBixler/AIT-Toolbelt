@@ -24,9 +24,9 @@ Function WorkgroupTweaks {
     }
 
     $Console.AppendText("`r`nEnabling C$ Share...")
-    $AIT = Get-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" | Select-Object LocalAccountTokenFilterPolicy
-    if ($AIT -like "*1*") {
-        $Console.AppendText("`r`n`tAlready hidden")
+    $CShare = Get-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" | Select-Object LocalAccountTokenFilterPolicy
+    if ($CShare -like "*1*") {
+        $Console.AppendText("`r`n`tAlready enabled")
     } else {
         try {
             Set-ItemProperty -Path "REGISTRY::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name LocalAccountTokenFilterPolicy -Value 1
