@@ -121,7 +121,7 @@ Function Tweaks {
     $Console.AppendText("`r`nDisabling Intel Graphics Command Center")
     try {
         Stop-Service igccservice
-        Set-Service igccservice -StartupType Manual
+        Set-Service igccservice -StartupType Disabled
         $Console.AppendText("`r`n`tSuccess")
     }
     catch {
